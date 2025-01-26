@@ -30,6 +30,7 @@ A comprehensive API system for managing schools, classrooms, and students with r
 - Node.js (latest)
 - MongoDB
 - npm or yarn
+- Redis
 
 ### Installation
 
