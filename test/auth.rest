@@ -1,0 +1,55 @@
+@baseUrl = http://localhost:5111/api
+
+### Create Superadmin User
+POST {{baseUrl}}/user/createUser
+Content-Type: application/json
+
+{
+    "username": "superadmin",
+    "email": "super@admin.com",
+    "password": "superadmin123",
+    "role": "superadmin"
+}
+
+
+
+### Create School Admin User
+POST {{baseUrl}}/user/createUser
+Content-Type: application/json
+
+{
+    "username": "schooladmin",
+    "email": "school@admin.com",
+    "password": "schooladmin123",
+    "role": "school_admin"
+}
+
+### Invalid User Creation (for testing validation)
+POST {{baseUrl}}/user/createUser
+Content-Type: application/json
+
+{
+    "username": "sa",
+    "email": "invalid-email",
+    "password": "short",
+    "role": "invalid-role"
+}
+
+### Login User
+# @name login
+POST {{baseUrl}}/user/loginUser
+Content-Type: application/json
+
+{
+    "email": "super@admin.com",
+    "password": "superadmin123"
+}
+
+### Create Short Token
+POST {{baseUrl}}/token/v1_createShortToken
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.data.longToken}}
+
+{
+    "__device": "chrome-windows-123"
+}

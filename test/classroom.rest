@@ -1,0 +1,110 @@
+### Variables
+@baseUrl = http://localhost:3000/api
+@module = classroom
+
+### Login as superadmin (save the token for subsequent requests)
+POST http://localhost:3000/api/user/loginUser
+Content-Type: application/json
+
+{
+    "email": "superadmin@test.com",
+    "password": "password123"
+}
+
+### Login as school admin (save the token for subsequent requests)
+POST http://localhost:3000/api/user/loginUser
+Content-Type: application/json
+
+{
+    "email": "schooladmin@test.com",
+    "password": "password123"
+}
+
+### Create a new classroom (requires school admin or superadmin token)
+POST {{baseUrl}}/{{module}}/createClassroom
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "name": "Class 1A",
+    "schoolId": "<your_school_id>",
+    "capacity": 30,
+    "grade": "1",
+    "section": "A"
+}
+
+### Get a specific classroom
+GET {{baseUrl}}/{{module}}/getClassroom
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "classroomId": "<classroom_id>"
+}
+
+### List all classrooms (filtered by school for school admin)
+GET {{baseUrl}}/{{module}}/listClassrooms
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "schoolId": "<optional_school_id>"
+}
+
+### Update a classroom
+PUT {{baseUrl}}/{{module}}/updateClassroom
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "classroomId": "<classroom_id>",
+    "name": "Class 1B",
+    "capacity": 25,
+    "grade": "1",
+    "section": "B"
+}
+
+### Delete a classroom (soft delete)
+DELETE {{baseUrl}}/{{module}}/deleteClassroom
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "classroomId": "<classroom_id>"
+}
+
+### Example Workflow:
+
+### 1. Create School (as superadmin)
+POST {{baseUrl}}/school/createSchool
+Content-Type: application/json
+Authorization: Bearer <superadmin_token>
+
+{
+    "name": "Test School",
+    "address": "123 Education St",
+    "email": "test.school@example.com",
+    "phone": "1234567890"
+}
+
+### 2. Create Classroom in that school
+POST {{baseUrl}}/{{module}}/createClassroom
+Content-Type: application/json
+Authorization: Bearer <school_admin_token>
+
+{
+    "name": "Class 1A",
+    "schoolId": "<school_id_from_step_1>",
+    "capacity": 30,
+    "grade": "1",
+    "section": "A"
+}
+
+### 3. List Classrooms for the school
+GET {{baseUrl}}/{{module}}/listClassrooms
+Content-Type: application/json
+Authorization: Bearer <school_admin_token>
+
+{
+    "schoolId": "<school_id_from_step_1>"
+} 

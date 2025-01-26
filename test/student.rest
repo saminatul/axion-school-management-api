@@ -1,0 +1,160 @@
+### Variables
+@baseUrl = http://localhost:3000/api
+@module = student
+
+### Login as superadmin (save the token for subsequent requests)
+POST http://localhost:3000/api/user/loginUser
+Content-Type: application/json
+
+{
+    "email": "superadmin@test.com",
+    "password": "password123"
+}
+
+### Login as school admin (save the token for subsequent requests)
+POST http://localhost:3000/api/user/loginUser
+Content-Type: application/json
+
+{
+    "email": "schooladmin@test.com",
+    "password": "password123"
+}
+
+### Create a new student
+POST {{baseUrl}}/{{module}}/createStudent
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "dateOfBirth": "2010-05-15",
+    "gender": "male",
+    "schoolId": "<your_school_id>",
+    "classroomId": "<your_classroom_id>",
+    "guardianInfo": {
+        "name": "Jane Doe",
+        "relationship": "mother",
+        "contact": {
+            "phone": "1234567890",
+            "email": "jane.doe@example.com",
+            "address": "123 Parent Street, City"
+        }
+    }
+}
+
+### Get a specific student
+GET {{baseUrl}}/{{module}}/getStudent
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "studentId": "<student_id>"
+}
+
+### List students (with optional filters)
+GET {{baseUrl}}/{{module}}/listStudents
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "schoolId": "<optional_school_id>",
+    "classroomId": "<optional_classroom_id>"
+}
+
+### Update student details
+PUT {{baseUrl}}/{{module}}/updateStudent
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "studentId": "<student_id>",
+    "firstName": "John Updated",
+    "lastName": "Doe Updated",
+    "classroomId": "<new_classroom_id>",
+    "guardianInfo": {
+        "contact": {
+            "phone": "9876543210"
+        }
+    }
+}
+
+### Transfer student to another school
+PUT {{baseUrl}}/{{module}}/transferStudent
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "studentId": "<student_id>",
+    "toSchoolId": "<target_school_id>",
+    "reason": "Family relocation to new area"
+}
+
+### Delete a student (soft delete)
+DELETE {{baseUrl}}/{{module}}/deleteStudent
+Content-Type: application/json
+Authorization: Bearer <your_token_here>
+
+{
+    "studentId": "<student_id>"
+}
+
+### Example Complete Workflow:
+
+### 1. Create School (as superadmin)
+POST {{baseUrl}}/school/createSchool
+Content-Type: application/json
+Authorization: Bearer <superadmin_token>
+
+{
+    "name": "Test School",
+    "address": "123 Education St",
+    "email": "test.school@example.com",
+    "phone": "1234567890"
+}
+
+### 2. Create Classroom in that school
+POST {{baseUrl}}/classroom/createClassroom
+Content-Type: application/json
+Authorization: Bearer <school_admin_token>
+
+{
+    "name": "Class 1A",
+    "schoolId": "<school_id_from_step_1>",
+    "capacity": 30,
+    "grade": "1",
+    "section": "A"
+}
+
+### 3. Enroll Student in the classroom
+POST {{baseUrl}}/{{module}}/createStudent
+Content-Type: application/json
+Authorization: Bearer <school_admin_token>
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "dateOfBirth": "2010-05-15",
+    "gender": "male",
+    "schoolId": "<school_id_from_step_1>",
+    "classroomId": "<classroom_id_from_step_2>",
+    "guardianInfo": {
+        "name": "Jane Doe",
+        "relationship": "mother",
+        "contact": {
+            "phone": "1234567890",
+            "email": "jane.doe@example.com",
+            "address": "123 Parent Street, City"
+        }
+    }
+}
+
+### 4. List Students in the classroom
+GET {{baseUrl}}/{{module}}/listStudents
+Content-Type: application/json
+Authorization: Bearer <school_admin_token>
+
+{
+    "schoolId": "<school_id_from_step_1>",
+    "classroomId": "<classroom_id_from_step_2>"
+} 

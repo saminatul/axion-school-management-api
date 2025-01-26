@@ -1,0 +1,66 @@
+@baseUrl = http://localhost:5111/api
+
+### First login to get token
+# @name login
+POST {{baseUrl}}/user/loginUser
+Content-Type: application/json
+
+{
+    "email": "super@admin.com",
+    "password": "superadmin123"
+}
+
+### Get short token
+# @name shortToken
+POST {{baseUrl}}/token/v1_createShortToken
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.data.longToken}}
+
+{
+    "__device": "chrome-windows-123"
+}
+
+### Create School (Superadmin only)
+POST {{baseUrl}}/school/createSchool
+Content-Type: application/json
+Authorization: Bearer {{shortToken.response.body.data.shortToken}}
+
+{
+    "name": "Cambridge International School",
+    "address": "123 Education Street, Academic City",
+    "email": "info@cambridge.edu",
+    "phone": "1234567890"
+}
+
+### List Schools (to verify creation)
+GET {{baseUrl}}/school/listSchools
+Authorization: Bearer {{shortToken.response.body.data.shortToken}}
+
+### Get Single School
+GET {{baseUrl}}/school/getSchool
+Content-Type: application/json
+Authorization: Bearer {{shortToken.response.body.data.shortToken}}
+
+{
+    "schoolId": "school_id_here"
+}
+
+### Update School
+PUT {{baseUrl}}/school/updateSchool
+Content-Type: application/json
+Authorization: Bearer {{shortToken.response.body.data.shortToken}}
+
+{
+    "schoolId": "school_id_here",
+    "name": "Cambridge International School - Main Campus",
+    "address": "124 Education Street, Academic City"
+}
+
+### Delete School
+DELETE {{baseUrl}}/school/deleteSchool
+Content-Type: application/json
+Authorization: Bearer {{shortToken.response.body.data.shortToken}}
+
+{
+    "schoolId": "school_id_here"
+}
