@@ -10,28 +10,24 @@ A comprehensive API system for managing schools, classrooms, and students with r
 - User profile management
 
 ### 2. School Management
-- Complete school profile management
-- Administrator assignment
-- Multiple schools support
-- Location and contact information
+- Managed by superadmins
+- Complete CRUD operations
+- School profile management
 
 ### 3. Classroom Management
-- Classroom creation and assignment
-- Capacity management
-- Grade and section tracking
-- School-specific classroom organization
+- Managed by school administrators
+- Associated with specific schools
+- Capacity and resource management
 
 ### 4. Student Management
-- Student enrollment system
-- Profile management
-- School transfer capabilities
-- Guardian information tracking
-- Classroom assignment
+- Managed by school administrators
+- Enrollment and transfer capabilities
+- Student profile management
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js (latest)
 - MongoDB
 - npm or yarn
 
