@@ -53,10 +53,10 @@ npx nodemon index.js
 
 ## API Documentation
 
-Detailed API documentation is available in the `docs/api` directory:
-- [School Management](docs/api/school.md)
-- [Classroom Management](docs/api/classroom.md)
-- [Student Management](docs/api/student.md)
+Detailed API documentation is available in the `docs` directory:
+- [School Management](docs/school.md)
+- [Classroom Management](docs/classroom.md)
+- [Student Management](docs/student.md)
 
 ### Authentication
 
